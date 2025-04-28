@@ -1,0 +1,15 @@
+ping google.com
+
+tracert google.com
+
+nslookup
+
+netstat -ano
+
+[Windows Command: netstat -ano (-a for all connections, -n for numerical addresses, -o to show the process identifier)]
+
+ipconfig /all
+
+route print
+
+[Windows Command: route print (displays the routing table), route add, route delete, route change (to modify the routing table).]
