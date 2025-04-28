@@ -1,0 +1,76 @@
+Install Wireshark:
+
+
+Your theory section already gives you the Linux commands. Since you're on Linux, open your terminal.
+Type: sudo su and press Enter. This will ask for your password and give you administrator privileges (needed for Wireshark to capture network traffic).
+Type: sudo apt-get install wireshark and press Enter. This will download and install Wireshark. You might be asked to confirm during the installation – just say "yes" (usually by pressing 'Y' and then Enter).
+Once installed, you can usually find Wireshark in your applications menu.
+Start Wireshark:
+
+
+Open Wireshark. You should see a window similar to "Figure 1.1" in your notes, listing your network interfaces (like your Wi-Fi or Ethernet connection).
+Choose Your Network Interface:
+
+
+Decide which network connection you want to monitor. If you're using Wi-Fi, select that interface. If you're connected with a cable, select the Ethernet interface (it might be called eth0, enp0sX, or something similar).
+Click on the interface you want to capture traffic from.
+Start Capturing:
+
+
+Once you've selected an interface, click the shark fin icon (usually in the top left corner) to start capturing network traffic. You'll see a stream of packets appearing in the main Wireshark window (like "Figure 1.2").
+Generate Network Traffic (This is Key!):
+
+
+To see the different protocols in action, you need to use them. Here are some things you can do while Wireshark is capturing:
+Browse a website: Open your web browser (like Chrome, Firefox) and go to a website (e.g., www.google.com). This will generate HTTP traffic.
+Download a file (small): Download a small file using your browser or an FTP client (if you have one set up). This will generate HTTP or FTP traffic.
+Check your email: If you use an email client, sending or receiving emails will generate traffic (likely using protocols like SMTP, POP3, or IMAP).
+Use the ping command: Open another terminal and use the ping command to send echo requests (ICMP). For example: ping google.com.
+Let DHCP happen: If you recently connected to a network, you might have seen a DHCP request. If not, you could try disconnecting and reconnecting to your Wi-Fi to trigger a DHCP exchange.
+Stop Capturing:
+
+
+After you've generated some network activity, click the red square icon in Wireshark to stop the capture.
+Examine the Captured Packets:
+
+
+Now you'll see a list of captured packets. Each row represents a single network packet.
+Selecting a Packet: Click on any packet in the top window to see its details in the lower two panes.
+Middle Pane (Packet Details): This pane shows you the different layers of the selected packet (Ethernet II, Internet Protocol Version 4/6, TCP/UDP, Application Layer Protocol). Click on the small arrows next to each layer to expand and see the header fields.
+Bottom Pane (Packet Bytes): This pane shows the raw data of the packet in hexadecimal and ASCII format.
+Focus on Each Layer (as per your aim):
+
+
+Ethernet Layer:
+
+
+Select any packet.
+In the middle pane, look for the "Ethernet II" section.
+Frame Header: You'll see information like the Destination MAC Address, Source MAC Address, and the EtherType (which indicates the next layer protocol, like IP).
+Frame Size: While not explicitly a field, the total length of the packet as displayed in the top window gives you an idea of the frame size.
+Data Link Layer (ARP):
+
+
+To see ARP (Address Resolution Protocol) in action, you might need to filter your capture. In the filter bar at the top, type arp and press Enter.
+Look for ARP Request and ARP Reply packets.
+Examine the ARP packet details. You should see fields related to the Sender MAC address, Sender IP address, Target MAC address, and Target IP address. This shows how devices find the MAC address associated with an IP address on the local network.
+Network Layer (IP):
+
+
+Remove the arp filter (or start a new capture and generate traffic again).
+Select a packet that uses IP (look for "Internet Protocol Version 4" or "Internet Protocol Version 6" in the middle pane).
+IP Packet Header: Expand the IP layer details. You'll see fields like Source IP Address, Destination IP Address, Protocol (TCP, UDP, ICMP), Time to Live (TTL), and potentially "Fragmentation" related fields if a large packet was broken down.
+ICMP: Filter for icmp. You should see "Echo (ping) request" and "Echo (ping) reply" packets if you used the ping command. Examine the ICMP header, noting the Type and Code fields.
+Transport Layer (TCP):
+
+
+Filter for tcp.
+Look for the TCP Three-way Handshake: This is the sequence of SYN, SYN-ACK, and ACK packets that establish a TCP connection. You should see packets with the "Flags" field indicating SYN, SYN-ACK, and ACK.
+TCP Ports: Examine the "Source Port" and "Destination Port" fields in the TCP header. These identify the applications or services communicating. Common ports for HTTP are 80 and 443.
+TCP Handshake Segments: The SYN, SYN-ACK, and ACK packets are the handshake segments. Look at their sequence numbers and acknowledgment numbers.
+Application Layer:
+
+
+DHCP: Filter for dhcp. Look at the DHCP Request, DHCP Offer, DHCP Acknowledge packets. Examine the details to see information like the IP address being offered, the DHCP server, and lease duration.
+FTP: If you generated FTP traffic, filter for ftp. Look at the commands (like USER, PASS, RETR) and responses in the packet details.
+HTTP: Filter for http or tcp.port == 80 or tcp.port == 443. Look at the HTTP GET and POST requests and the HTTP responses (like 200 OK). Expand the "Hypertext Transfer Protocol" section to see the HTTP header fields (e.g., Host, User-Agent, Content-Type).
