@@ -1,0 +1,27 @@
+enable
+configure terminal
+
+interface gigabitethernet 0/0
+ip address 192.168.1.1 255.255.255.0
+no shutdown
+exit
+
+line vty 0 4
+password cisco
+login
+exit
+
+enable password class
+
+service password-encryption 
+
+
+#Click the PC → Desktop → IP Configuration:
+#IP Address: 192.168.1.2
+
+#Subnet Mask: 255.255.255.0
+
+#Default Gateway: 192.168.1.1
+
+On the PC → Desktop → Command Prompt:
+telnet 192.168.1.1
