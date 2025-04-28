@@ -1,3 +1,11 @@
+1 Router (or Switch)
+
+1 PC
+
+Straight-through cable (PC ↔ Router/Switch)
+Click on Router/Switch → CLI.
+
+
 enable
 configure terminal
 
@@ -25,3 +33,7 @@ service password-encryption
 
 On the PC → Desktop → Command Prompt:
 telnet 192.168.1.1
+
+
+
+any problem : [https://chatgpt.com/share/680fd3af-eb98-8003-a264-5a2444731e1d]
