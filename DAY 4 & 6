@@ -1,0 +1,272 @@
+Step 0: Enter the CLI (Command Line Interface)
+Click the router (R1).
+
+Go to CLI tab.
+
+⚡ Step 1: Enter Privileged EXEC Mode
+Command:
+
+bash
+Copy
+Edit
+enable
+(Shortcut: just type en and press Enter)
+
+⚡ Step 2: Enter Global Configuration Mode
+Command:
+
+nginx
+Copy
+Edit
+configure terminal
+(Shortcut: just type conf t and press Enter)
+
+⚡ Step 3: Set Hostname
+Command:
+
+nginx
+Copy
+Edit
+hostname R1
+You should see the prompt change from Router(config)# to R1(config)#.
+
+⚡ Step 4: Set an Unencrypted Enable Password
+Command:
+
+pgsql
+Copy
+Edit
+enable password CCNA
+⚡ Step 5: Test the Enable Password
+Exit to User EXEC Mode: (type exit twice)
+
+bash
+Copy
+Edit
+exit
+exit
+Now type:
+
+bash
+Copy
+Edit
+enable
+It will ask for a password.
+
+Type: CCNA (it won’t show as you type).
+
+✅ If correct, you enter privileged mode.
+
+⚡ Step 6: View Running Configuration
+Command:
+
+arduino
+Copy
+Edit
+show running-config
+(Shortcut: just type sh run and press Enter)
+
+🔎 Look for:
+
+pgsql
+Copy
+Edit
+enable password CCNA
+(It will be visible in clear text.)
+
+⚡ Step 7: Encrypt All Passwords
+Enter global config again (if not already there):
+
+nginx
+Copy
+Edit
+conf t
+Command:
+
+nginx
+Copy
+Edit
+service password-encryption
+⚡ Step 8: View Running Config Again
+If still in global config mode, use do:
+
+arduino
+Copy
+Edit
+do show running-config
+🔎 Now the password is encrypted like 7 0232453A....
+
+⚡ Step 9: Set a More Secure "Enable Secret" Password
+Command:
+
+bash
+Copy
+Edit
+enable secret Cisco
+⚡ Step 10: Test the Enable Secret
+Exit twice to user mode:
+
+bash
+Copy
+Edit
+exit
+exit
+Type:
+
+bash
+Copy
+Edit
+enable
+Now test:
+
+Try old password CCNA ➔ ❌ (doesn't work).
+
+Try new password Cisco ➔ ✅ (works).
+
+⚡ Step 11: View Passwords Again
+Command:
+
+arduino
+Copy
+Edit
+show running-config
+🔎 See:
+
+enable password 7 ******** (weak encryption)
+
+enable secret 5 ******** (strong MD5 encryption)
+
+⚡ Step 12: Save Configuration
+Command options: (you can use any one)
+
+arduino
+Copy
+Edit
+write
+or
+
+arduino
+Copy
+Edit
+write memory
+or
+
+arduino
+Copy
+Edit
+copy running-config startup-config
+✅ Now your settings are saved even if you power off the router!
+
+
+https://chatgpt.com/share/680fde63-2e24-8000-8622-0c10a87a39ef
+
+
+Super Quick Command Summary:
+
+
+
+enable
+conf t
+hostname R1
+enable password CCNA
+exit
+exit
+enable
+(show password prompt)
+show running-config
+conf t
+service password-encryption
+do show running-config
+enable secret Cisco
+exit
+exit
+enable
+(show secret password prompt)
+show running-config
+write
+
+
+
+
+Ethernet LAN Switching Lab (Jeremy’s IT Lab – Summary)
+Network Setup:
+
+2 switches (SW1, SW2)
+
+2 PCs connected to each switch (PC1, PC2, PC3, PC4)
+
+Initial Condition:
+
+Empty MAC address tables on switches
+
+Empty ARP tables on PCs
+
+Step-by-Step Summary:
+Step 1: PC1 pings PC3
+
+PC1 needs PC3's MAC address → sends ARP request (broadcast).
+
+Devices receiving ARP request: All devices (except PC1) — PC2, PC3, PC4, SW1, SW2.
+
+PC3 sends ARP reply (unicast) back to PC1.
+
+PC1 updates ARP table → sends ICMP Echo Request (unicast) to PC3.
+
+PC3 replies with ICMP Echo Reply (unicast) to PC1.
+
+Windows PCs send 4 pings by default (Cisco devices send 5).
+
+Step 2: Use Simulation Mode in Packet Tracer
+
+Go to Simulation Mode →
+
+Click PC1 → Desktop → Command Prompt → Type ping 192.168.1.3.
+
+Observation:
+
+ARP broadcast sent first (destination MAC = ff:ff:ff:ff:ff:ff).
+
+ARP reply unicast sent back.
+
+Then ICMP Echo Request and Reply (unicast).
+
+Step 3: Generate More Network Traffic
+
+Ping from PC2 to PC4 (ping 192.168.1.4).
+
+Purpose: Allow switches to learn all MAC addresses.
+
+Step 4: Identify MAC Addresses using Show Commands
+
+On SW1:
+
+Use enable → show mac address-table.
+
+Identify MACs based on connected interfaces (FastEthernet 0/1, 0/2).
+
+Only sees PC3 and PC4 behind GigabitEthernet0/1 (not directly which MAC belongs to which).
+
+On SW2:
+
+Use enable → show mac address-table.
+
+Can directly identify PC3 (Fa0/1) and PC4 (Fa0/2) MAC addresses.
+
+Step 5: Clear Dynamic MAC Addresses
+
+On each switch (SW1 and SW2):
+
+Use clear mac address-table dynamic.
+
+Then verify with show mac address-table (should be empty).
+
+Extra Notes:
+ARP request = broadcast.
+
+ARP reply = unicast.
+
+ICMP ping and reply = unicast.
+
+Switches learn MAC addresses by examining source MAC of incoming frames.
+
+Packet Tracer limitation: Cannot selectively clear a specific MAC address, must clear all.
